@@ -24,32 +24,33 @@ protocol ImageCollectionViewDelegate: AnyObject {
 class ViewController: UIViewController, ImageCollectionViewDelegate {
     
     // MARK: - Properties
-    
     /// The view model responsible for fetching and managing the images.
-    var imageViewModel: ImageCollectionViewModel
+    let imageViewModel: ImageCollectionViewModel
     
     /// The view model responsible for managing the cell sizes.
-    var cellSizeViewModel = CellSizeViewModel()
+    let cellSizeViewModel = CellSizeViewModel()
     
+    // MARK: - UI Elements
+
     /// The segmented control for selecting the cell size.
     /// It allows the user to choose between different cell sizes for the collection view.
-    var segmentedControl: UISegmentedControl
+    let segmentedControl: UISegmentedControl
     
     /// The search field for querying photos.
     /// It allows the user to enter a search term to query images from the Unsplash API.
-    var searchTextField: UITextField
+    let searchTextField: UITextField
     
     /// The stack view containing the search text field and segmented control.
     /// It organizes the search field and segmented control in a vertical stack.
-    var stackView: UIStackView
+    let stackView: UIStackView
     
     /// The collection view for displaying images.
     /// It displays the images fetched from the Unsplash API in a grid layout.
-    var collectionView: UICollectionView
+    let collectionView: UICollectionView
     
     /// The custom collection view for managing image data and interactions.
     /// It is responsible for handling the data source and delegate methods of the `collectionView`. It fetches and updates images from the Unsplash API, and handles user interactions with the collection view cells.
-    var imageCollectionView: ImageCollectionView
+    let imageCollectionView: ImageCollectionView
     
     /// Padding constant for layout.
     /// It is used to provide consistent spacing around the UI elements.

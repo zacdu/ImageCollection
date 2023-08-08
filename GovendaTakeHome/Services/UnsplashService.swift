@@ -9,6 +9,7 @@ import UIKit
 
 enum UnsplashServiceError: Error {
     case invalidAPIKey
+    case invalidProfileURL
 }
 
 /// `UnsplashService` is a class that provides methods for fetching images and image data from the Unsplash API.
