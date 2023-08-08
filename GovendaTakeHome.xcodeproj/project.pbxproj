@@ -25,6 +25,8 @@
 		830EDCB02A8208970000438F /* CollectionViewLayoutFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830EDCAF2A8208970000438F /* CollectionViewLayoutFactory.swift */; };
 		830EDCB42A8217670000438F /* ImageCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830EDCB32A8217670000438F /* ImageCollectionViewModel.swift */; };
 		830EDCB62A82179E0000438F /* CellSizeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830EDCB52A82179E0000438F /* CellSizeViewModel.swift */; };
+		83AD7B202A82C9BC00C4E133 /* ImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AD7B1F2A82C9BC00C4E133 /* ImageDetailViewController.swift */; };
+		83AD7B222A82CA0800C4E133 /* ImageDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AD7B212A82CA0800C4E133 /* ImageDetailViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,8 @@
 		830EDCAF2A8208970000438F /* CollectionViewLayoutFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewLayoutFactory.swift; sourceTree = "<group>"; };
 		830EDCB32A8217670000438F /* ImageCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewModel.swift; sourceTree = "<group>"; };
 		830EDCB52A82179E0000438F /* CellSizeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellSizeViewModel.swift; sourceTree = "<group>"; };
+		83AD7B1F2A82C9BC00C4E133 /* ImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailViewController.swift; sourceTree = "<group>"; };
+		83AD7B212A82CA0800C4E133 /* ImageDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +165,7 @@
 			children = (
 				830EDCB72A8219960000438F /* Helpers */,
 				830EDC712A8191270000438F /* ViewController.swift */,
+				83AD7B1F2A82C9BC00C4E133 /* ImageDetailViewController.swift */,
 				830EDCA92A81A6620000438F /* ViewControllerUI.swift */,
 				830EDCAD2A8205190000438F /* ImageCollectionView.swift */,
 				830EDCAB2A8202F70000438F /* ImageCollectionViewCell.swift */,
@@ -181,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				830EDCB32A8217670000438F /* ImageCollectionViewModel.swift */,
+				83AD7B212A82CA0800C4E133 /* ImageDetailViewModel.swift */,
 				830EDCB52A82179E0000438F /* CellSizeViewModel.swift */,
 			);
 			path = ViewModels;
@@ -334,6 +340,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				830EDCB62A82179E0000438F /* CellSizeViewModel.swift in Sources */,
+				83AD7B222A82CA0800C4E133 /* ImageDetailViewModel.swift in Sources */,
+				83AD7B202A82C9BC00C4E133 /* ImageDetailViewController.swift in Sources */,
 				830EDCB42A8217670000438F /* ImageCollectionViewModel.swift in Sources */,
 				830EDCA82A81A5760000438F /* CellSize.swift in Sources */,
 				830EDCB02A8208970000438F /* CollectionViewLayoutFactory.swift in Sources */,

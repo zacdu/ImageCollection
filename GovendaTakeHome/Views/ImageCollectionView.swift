@@ -47,6 +47,11 @@ class ImageCollectionView: NSObject, UICollectionViewDataSource, UICollectionVie
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.collectionView(collectionView, didSelectImageAt: indexPath)
+    }
+
+    
     /// Updates the images to be displayed in the collection view.
     /// - Parameter newImages: An array of `UnsplashImage` objects representing the new images.
     func updateImages(_ newImages: [UnsplashImage]) {

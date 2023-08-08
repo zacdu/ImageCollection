@@ -15,6 +15,8 @@ protocol ImageCollectionViewDelegate: AnyObject {
     ///   - url: The URL of the image to fetch.
     ///   - completion: A closure to be executed once the fetch is complete. This closure takes a single argument: a Result containing the fetched UIImage on success, or an Error on failure.
     func fetchImage(for url: URL, completion: @escaping (Result<UIImage, Error>) -> Void)
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectImageAt indexPath: IndexPath)
 }
 
 /// `ViewController` is responsible for displaying a collection of images fetched from the Unsplash API.
@@ -93,7 +95,7 @@ class ViewController: UIViewController, ImageCollectionViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()       // Configure Search Bar, Segment Control, and CollectonView
-        bindViewModel() // Load ViewModel, making initial network call
+        fetchInitialImages() // Load ViewModel, making initial network call
     }
     
     // MARK: - UI Setup
@@ -156,7 +158,7 @@ class ViewController: UIViewController, ImageCollectionViewDelegate {
     }
     
     /// Binds the view model and calls initial `viewModel.fetchImages` to load default collection.
-    func bindViewModel() {
+    func fetchInitialImages() {
         imageViewModel.fetchImages() { [weak self] result in
             switch result {
             case .success(let images):
@@ -220,4 +222,26 @@ extension ViewController: UITextFieldDelegate {
     }
 }
 
-
+extension ViewController {
+    func collectionView(_ collectionView: UICollectionView, didSelectImageAt indexPath: IndexPath) {
+        // Get the selected image
+        let selectedImage = imageCollectionView.images[indexPath.item]
+        
+        do {
+            // Create an instance of UnsplashService
+            let service = try UnsplashService(apiKey: "O7E-kFrmIbkd-NWHkLxmSSmijJ-JzwGcOHltef0MSH0")
+            
+            // Create an instance of ImageDetailViewController
+            let detailViewController = ImageDetailViewController(unsplashImage: selectedImage, service: service)
+            detailViewController.modalPresentationStyle = .formSheet
+            
+            // Present the detail view controller modally
+            present(detailViewController, animated: true, completion: nil)
+        } catch {
+            // Handle the error
+            print("Failed to create UnsplashService: \(error)")
+            
+            // TODO: Show an alert to the user
+        }
+    }
+}
