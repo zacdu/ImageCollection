@@ -13,7 +13,7 @@ import UIKit
 class ImageCollectionViewModel {
     
     /// The service object that fetches images from the Unsplash API.
-    let service: UnsplashService
+    let service: ImageService
     private static let defaultQuery = "Nature"
     
     init(service: UnsplashService) {
