@@ -34,7 +34,7 @@ The project is structured into several directories, each serving a specific purp
 - `Services`: This directory contains the service for interacting with the Unsplash API.
 - `ViewModels`: This directory contains the view models that provide data for the views.
 - `Views`: This directory contains the views and their related files.
-- `Tests`: This directory contains unit and UI tests for the application.
+- `Tests`: This directory contains unit tests for the application.
 
 ## Usage
 
@@ -42,7 +42,7 @@ The application presents a collection view of images. Users can search for image
 
 ## Testing
 
-The project includes both unit tests and UI tests. To run the tests, select the desired test suite in Xcode and execute the 'Run' command.
+The project includes both unit tests. To run the tests, select the desired test suite in Xcode and execute the 'Run' command.
 
 ## Contributing
 
