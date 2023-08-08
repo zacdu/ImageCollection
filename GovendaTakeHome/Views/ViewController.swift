@@ -7,7 +7,7 @@
 
 import UIKit
 
-/// A delegate protocol for the ImageCollectionView.
+/// A delegate protocol for the `ImageCollectionView`.
 /// This protocol defines a method for fetching an image for a given URL.
 protocol ImageCollectionViewDelegate: AnyObject {
     /// Fetches an image for the given URL.
@@ -38,7 +38,10 @@ class ViewController: UIViewController, ImageCollectionViewDelegate {
     /// The collection view for displaying images.
     var collectionView: UICollectionView!
     
+    /// The custom collection view for managing image data and interactions.
+    /// responsible for handling the data source and delegate methods of the `collectionView`. It fetches and updates images from the Unsplash API, and handles user interactions with the collection view cells.
     var imageCollectionView: ImageCollectionView!
+
     
     /// Padding constant for layout.
     let padding: CGFloat = 20
