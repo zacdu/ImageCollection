@@ -2,6 +2,21 @@
 
 ImageCollection is a robust iOS application developed in Swift, leveraging the UIKit framework for its user interface. The application provides a platform for users to search and view images sourced from the Unsplash API.
 
+```mermaid
+graph TD
+  A[ViewController] --> B[ImageCollectionViewModel]
+  B --> C[ImageService]
+  C --> D[ImageServiceResult: UnsplashSearchResult]
+  B --> E[CellSizeViewModel]
+  E --> F[CellSize]
+  A --> G[ImageCollectionView]
+  G --> H[ImageCollectionViewCell]
+  A --> I[ImageDetailViewController]
+  I --> J[ImageDetailViewModel]
+  J --> K[ImageService]
+
+```
+
 ## Core Features
 
 - **Image Search:** The application allows users to search for images using the Unsplash API.
