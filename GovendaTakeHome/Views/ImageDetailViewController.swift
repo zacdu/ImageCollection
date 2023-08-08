@@ -54,7 +54,7 @@ class ImageDetailViewController: UIViewController {
     ///   - unsplashImage: The Unsplash image to display.
     ///   - service: The service to use to fetch images.
     /// The initializer also creates a new `ImageDetailViewModel` instance with the specified service.
-    init(unsplashImage: UnsplashImage, service: UnsplashService) {
+    init(unsplashImage: UnsplashImage, service: ImageService) {
         self.unsplashImage = unsplashImage
         self.detailViewModel = ImageDetailViewModel(service: service)
         

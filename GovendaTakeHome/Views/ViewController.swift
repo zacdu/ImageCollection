@@ -60,9 +60,9 @@ class ViewController: UIViewController {
     /// It defines the height of the search text field in the stack view.
     let textFieldHeight: CGFloat = 40
     
-    /// Initializes a new instance of the ViewController with the specified UnsplashService.
-    /// - Parameter service: The UnsplashService to use for fetching images.
-    init(service: UnsplashService) {
+    /// Initializes a new instance of the ViewController with the specified ImageService.
+    /// - Parameter service: The ImageService to use for fetching images.
+    init(service: ImageService) {
         // We inject the Service to allow for hotswapping other services that perform  Query -> Images work.
         self.imageViewModel = ImageCollectionViewModel(service: service)
         // These are the UI components internal to the ViewController
@@ -76,7 +76,7 @@ class ViewController: UIViewController {
     }
     
     /// Required initializer for the ViewController.
-    /// It creates a new instance of the UnsplashService and initializes the view model with it.
+    /// It creates a new instance of the ImageService and initializes the view model with it.
     required init?(coder: NSCoder) {
         do {
             let service = try UnsplashService(apiKey: "O7E-kFrmIbkd-NWHkLxmSSmijJ-JzwGcOHltef0MSH0")
@@ -236,7 +236,7 @@ extension ViewController {
         let selectedImage = imageCollectionView.images[indexPath.item]
         
         do {
-            // Create an instance of UnsplashService
+            // Create an instance of ImageService
             let service = try UnsplashService(apiKey: "O7E-kFrmIbkd-NWHkLxmSSmijJ-JzwGcOHltef0MSH0")
             
             // Create an instance of ImageDetailViewController
