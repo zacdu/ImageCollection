@@ -93,8 +93,9 @@ class ImageDetailViewController: UIViewController {
     
 }
 
+
+// MARK: - UI Setup
 extension ImageDetailViewController {
-    // MARK: - UI Setup
     /// It configures the scroll view, image view, username label, profile image view, social media label, and description label.
     private func setupUI() {
         view.backgroundColor = .white
@@ -174,9 +175,9 @@ extension ImageDetailViewController {
     
 }
 
+
+// MARK: - Image Model methods
 extension ImageDetailViewController {
-    // MARK: - Image Fetching
-    
     /// Fetches the Unsplash image and updates the image view.
     /// It uses the `fetchImage(for:completion:)` method of the `detailViewModel` to fetch the image.
     private func loadImage() {

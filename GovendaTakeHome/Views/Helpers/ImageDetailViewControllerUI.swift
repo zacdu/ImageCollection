@@ -57,5 +57,4 @@ class ImageDetailViewControllerUI {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
 }

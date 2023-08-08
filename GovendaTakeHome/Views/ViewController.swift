@@ -21,7 +21,7 @@ protocol ImageCollectionViewDelegate: AnyObject {
 
 /// `ViewController` is responsible for displaying a collection of images fetched from the Unsplash API.
 /// This class uses a ImageCollectionViewModel to fetch and manage the images, a CellSizeViewModel to manage the cell sizes, and a SegmentControlViewModel to handle changes in the segmented control.
-class ViewController: UIViewController, ImageCollectionViewDelegate {
+class ViewController: UIViewController {
     
     // MARK: - Properties
     /// The view model responsible for fetching and managing the images.
@@ -98,8 +98,33 @@ class ViewController: UIViewController, ImageCollectionViewDelegate {
         setupUI()       // Configure Search Bar, Segment Control, and CollectonView
         fetchInitialImages() // Load ViewModel, making initial network call
     }
+
+}
+
+// MARK: - UI Setup
+extension ViewController {
+    /// Updates the collection view's images with the latest data from the ViewModel.
+    /// This method should be called whenever the data in the ViewModel changes.
+    func updateCollectionViewImages(_ images: [UnsplashImage]) {
+        imageCollectionView.updateImages(images)
+        collectionView.reloadData()
+    }
     
-    // MARK: - UI Setup
+    /// Makes initial call for default image collection
+    func fetchInitialImages() {
+        imageViewModel.fetchImages() { [weak self] result in
+            switch result {
+            case .success(let images):
+                // Update the UI on the main thread
+                DispatchQueue.main.async {
+                    self?.updateCollectionViewImages(images)
+                }
+            case .failure(let error):
+                // TODO: show an alert to the user
+                print("Error fetching images: \(error)")
+            }
+        }
+    }
     
     /// Sets up the main UI components of the view.
     func setupUI() {
@@ -158,22 +183,17 @@ class ViewController: UIViewController, ImageCollectionViewDelegate {
         collectionView.delegate = imageCollectionView
     }
     
-    /// Binds the view model and calls initial `viewModel.fetchImages` to load default collection.
-    func fetchInitialImages() {
-        imageViewModel.fetchImages() { [weak self] result in
-            switch result {
-            case .success(let images):
-                // Update the UI on the main thread
-                DispatchQueue.main.async {
-                    self?.updateCollectionViewImages(images)
-                }
-            case .failure(let error):
-                // TODO: show an alert to the user
-                print("Error fetching images: \(error)")
-            }
-        }
+    /// Handles changes in the segmented control.
+    @objc func handleSegmentChange() {
+        cellSizeViewModel.handleCellSizeChange(segmentIndex: segmentedControl.selectedSegmentIndex)
+        collectionView.setCollectionViewLayout(CollectionViewLayoutFactory.createLayout(with: cellSizeViewModel.currentCellSize), animated: true)
+        collectionView.reloadData()
     }
-    
+}
+
+
+// MARK: - ImageCollectionViewDelegate
+extension ViewController: ImageCollectionViewDelegate {
     /// Fetches an image for the given URL, satisfying the `ImageCollectionViewDelegate` protocol
     /// This method uses the ImageCollectionViewModel to fetch the image. Once the image is fetched, it calls the provided completion handler.
     /// - Parameters:
@@ -182,21 +202,6 @@ class ViewController: UIViewController, ImageCollectionViewDelegate {
     func fetchImage(for url: URL, completion: @escaping (Result<UIImage, Error>) -> Void) {
         imageViewModel.fetchImage(for: url, completion: completion)
     }
-    
-    /// Updates the collection view's images with the latest data from the ViewModel.
-    /// This method should be called whenever the data in the ViewModel changes.
-    func updateCollectionViewImages(_ images: [UnsplashImage]) {
-        imageCollectionView.updateImages(images)
-        collectionView.reloadData()
-    }
-    
-    /// Handles changes in the segmented control.
-    @objc func handleSegmentChange() {
-        cellSizeViewModel.handleCellSizeChange(segmentIndex: segmentedControl.selectedSegmentIndex)
-        collectionView.setCollectionViewLayout(CollectionViewLayoutFactory.createLayout(with: cellSizeViewModel.currentCellSize), animated: true)
-        collectionView.reloadData()
-    }
-    
 }
 
 
@@ -223,6 +228,8 @@ extension ViewController: UITextFieldDelegate {
     }
 }
 
+
+// MARK: - UICollectionViewDelegate
 extension ViewController {
     func collectionView(_ collectionView: UICollectionView, didSelectImageAt indexPath: IndexPath) {
         // Get the selected image
