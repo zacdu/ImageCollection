@@ -19,12 +19,12 @@ final class ImageCollectionViewModelTests: XCTestCase {
     
     /// An invalid API key for the Unsplash API.
     let invalidAPIKey = ""
-
+    
     /// A method called before each test in the test case. This method is where you put setup code.
     override func setUp() {
         super.setUp()
     }
-
+    
     /// A method called after each test in the test case. This method is where you put teardown code.
     override func tearDown() {
         viewModel = nil
@@ -41,7 +41,7 @@ final class ImageCollectionViewModelTests: XCTestCase {
         
         // Create an expectation for a background download task.
         let expectation = XCTestExpectation(description: "Fetch images from Unsplash API with valid API key")
-
+        
         // Call the method under test.
         viewModel.fetchImages(for: "Nature") { result in
             switch result {
@@ -55,17 +55,17 @@ final class ImageCollectionViewModelTests: XCTestCase {
             // Fulfill the expectation to indicate that the background task has finished successfully.
             expectation.fulfill()
         }
-
+        
         // Wait until the expectation is fulfilled, with a timeout of 10 seconds.
         wait(for: [expectation], timeout: 10.0)
     }
-
+    
     func testFetchImagesWithInvalidAPIKey() throws {
         do {
             let service = try UnsplashService(apiKey: invalidAPIKey)
             viewModel = ImageCollectionViewModel(service: service)
             let expectation = XCTestExpectation(description: "Fetch images from Unsplash API with invalid API key")
-
+            
             viewModel.fetchImages(for: "Nature") { result in
                 switch result {
                 case .success(_):
@@ -75,7 +75,7 @@ final class ImageCollectionViewModelTests: XCTestCase {
                     expectation.fulfill()
                 }
             }
-
+            
             wait(for: [expectation], timeout: 10.0)
         } catch ImageServiceError.invalidAPIKey {
             // Expected error, test passed
@@ -83,14 +83,14 @@ final class ImageCollectionViewModelTests: XCTestCase {
             XCTFail("Unexpected error: \(error)")
         }
     }
-
+    
     func testFetchImageWithValidAPIKey() throws {
         do {
             let service = try UnsplashService(apiKey: validAPIKey)
             viewModel = ImageCollectionViewModel(service: service)
             let expectation = XCTestExpectation(description: "Fetch image from Unsplash API with valid API key")
             let validURL = URL(string: "https://images.unsplash.com/photo-1423784346385-c1d4dac9893a?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&s=d60d527cb347746ab3abf5fccecf0271")!
-
+            
             viewModel.fetchImage(for: validURL) { result in
                 switch result {
                 case .success(let image):
@@ -100,20 +100,20 @@ final class ImageCollectionViewModelTests: XCTestCase {
                 }
                 expectation.fulfill()
             }
-
+            
             wait(for: [expectation], timeout: 10.0)
         } catch {
             XCTFail("Unexpected error: \(error)")
         }
     }
-
+    
     func testFetchImageWithInvalidAPIKey() throws {
         do {
             let service = try UnsplashService(apiKey: invalidAPIKey)
             viewModel = ImageCollectionViewModel(service: service)
             let expectation = XCTestExpectation(description: "Fetch image from Unsplash API with invalid API key")
             let validURL = URL(string: "https://images.unsplash.com/photo-1423784346385-c1d4dac9893a?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&s=d60d527cb347746ab3abf5fccecf0271")!
-
+            
             viewModel.fetchImage(for: validURL) { result in
                 switch result {
                 case .success(_):
@@ -123,7 +123,7 @@ final class ImageCollectionViewModelTests: XCTestCase {
                     expectation.fulfill()
                 }
             }
-
+            
             wait(for: [expectation], timeout: 10.0)
         } catch ImageServiceError.invalidAPIKey {
             // Expected error, test passed
@@ -131,5 +131,69 @@ final class ImageCollectionViewModelTests: XCTestCase {
             XCTFail("Unexpected error: \(error)")
         }
     }
+    
+    func testFetchImagesWithEmptySearchTerms() throws {
+        let service = try UnsplashService(apiKey: validAPIKey)
+        viewModel = ImageCollectionViewModel(service: service)
+        
+        let expectation = XCTestExpectation(description: "Fetch query for empty search terms")
+        let term = ""
+        
+        viewModel.fetchImages(for: term) { result in
+            switch result {
+            case .success(let images):
+                XCTAssert(images.isEmpty, "No images were fetched for term: \(term)")
+            case .failure(let error):
+                XCTFail("Failed to fetch images for term: \(term). Error: \(error)")
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
+    func testFetchImageWithValidURL() throws {
+        let service = try UnsplashService(apiKey: validAPIKey)
+        viewModel = ImageCollectionViewModel(service: service)
+        
+        let expectation = XCTestExpectation(description: "Fetch image for different URLs")
+        
+        let url = URL(string: "https://images.unsplash.com/photo-1423784346385-c1d4dac9893a?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&s=d60d527cb347746ab3abf5fccecf0271")!
+        
+        
+        viewModel.fetchImage(for: url) { result in
+            switch result {
+            case .success(let image):
+                XCTAssertNotNil(image, "No image was fetched for URL: \(url)")
+            case .failure(let error):
+                XCTFail("Failed to fetch image for URL: \(url). Error: \(error)")
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
+    func testFetchImageWithInvalidURL() throws {
+        let service = try UnsplashService(apiKey: validAPIKey)
+        viewModel = ImageCollectionViewModel(service: service)
+        
+        let expectation = XCTestExpectation(description: "Fetch image for different URLs")
+        
+        let url = URL(string: "https://invalid-url")!
+        
+        viewModel.fetchImage(for: url) { result in
+            switch result {
+            case .success( _):
+                XCTFail("Fetch image for invalid URL: \(url)")
+            case .failure(let error):
+                XCTAssertNotNil(error, "No image was fetched for URL: \(url)")
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
 }
 

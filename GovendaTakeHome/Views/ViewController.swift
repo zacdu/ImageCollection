@@ -239,9 +239,7 @@ extension ViewController {
             // Present the detail view controller modally
             present(detailViewController, animated: true, completion: nil)
         } catch {
-            // Handle the error
             print("Failed to create UnsplashService: \(error)")
-            
             // TODO: Show an alert to the user
         }
     }

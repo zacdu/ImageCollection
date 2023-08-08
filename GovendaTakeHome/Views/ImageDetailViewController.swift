@@ -158,11 +158,8 @@ extension ImageDetailViewController {
     
     private func configureSocialMediaLabel() {
         NSLayoutConstraint.activate([
-            
-            
             socialMediaLabel.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor),
             socialMediaLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 8),
-            
         ])
     }
     
