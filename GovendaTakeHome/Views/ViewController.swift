@@ -24,7 +24,7 @@ class ViewController: UIViewController, ImageCollectionViewDelegate {
     // MARK: - Properties
     
     /// The view model responsible for fetching and managing the images.
-    var imageViewModel = ImageCollectionViewModel()
+    var imageViewModel: ImageCollectionViewModel
     
     /// The view model responsible for managing the cell sizes.
     var cellSizeViewModel = CellSizeViewModel()
@@ -45,6 +45,21 @@ class ViewController: UIViewController, ImageCollectionViewDelegate {
     
     /// Height constant for the search text field.
     let textFieldHeight: CGFloat = 40
+    
+    init(service: UnsplashService) {
+        self.imageViewModel = ImageCollectionViewModel(service: service)
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        do {
+            let service = try UnsplashService(apiKey: "O7E-kFrmIbkd-NWHkLxmSSmijJ-JzwGcOHltef0MSH0")
+            self.imageViewModel = ImageCollectionViewModel(service: service)
+            super.init(coder: coder)
+        } catch {
+            fatalError("Failed to create UnsplashService: \(error)")
+        }
+    }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {

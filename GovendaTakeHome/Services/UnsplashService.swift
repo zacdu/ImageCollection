@@ -7,6 +7,9 @@
 
 import UIKit
 
+enum UnsplashServiceError: Error {
+    case invalidAPIKey
+}
 
 /// `UnsplashService` is a class that provides methods for fetching images and image data from the Unsplash API.
 ///
@@ -15,9 +18,15 @@ import UIKit
 /// The Unsplash API requires an API key for authorization, which is included in the headers of the HTTP requests made by this class.
 class UnsplashService {
     /// The API key for the Unsplash API.
-    private let apiKey = "O7E-kFrmIbkd-NWHkLxmSSmijJ-JzwGcOHltef0MSH0"
+    let apiKey: String
     private let authHeaderField = "Authorization"
     private let authHeaderValue = "Client-ID"
+    
+    init(apiKey: String) throws {
+        guard !apiKey.isEmpty else { throw UnsplashServiceError.invalidAPIKey }
+        self.apiKey = apiKey
+    }
+
     
     /// Fetches an image from the Unsplash API.
     ///
@@ -27,7 +36,7 @@ class UnsplashService {
     /// - Returns: A UIImage of the fetched image.
     /// - Throws: An error if there was a problem fetching the image.
     func fetchImage(url: URL) async throws -> UIImage {
-        guard !apiKey.isEmpty else { throw URLError(.userAuthenticationRequired) }
+        guard !apiKey.isEmpty else { throw UnsplashServiceError.invalidAPIKey }
 
         var request = URLRequest(url: url)
         request.setValue(authHeaderValue + " " + apiKey, forHTTPHeaderField: authHeaderField)
