@@ -28,36 +28,61 @@ class ViewController: UIViewController, ImageCollectionViewDelegate {
     
     /// The view model responsible for managing the cell sizes.
     var cellSizeViewModel = CellSizeViewModel()
-
+    
     /// The segmented control for selecting the cell size.
-    var segmentedControl: UISegmentedControl!
+    /// It allows the user to choose between different cell sizes for the collection view.
+    var segmentedControl: UISegmentedControl
+    
+    /// The search field for querying photos.
+    /// It allows the user to enter a search term to query images from the Unsplash API.
+    var searchTextField: UITextField
     
     /// The stack view containing the search text field and segmented control.
-    var stackView: UIStackView!
+    /// It organizes the search field and segmented control in a vertical stack.
+    var stackView: UIStackView
     
     /// The collection view for displaying images.
-    var collectionView: UICollectionView!
+    /// It displays the images fetched from the Unsplash API in a grid layout.
+    var collectionView: UICollectionView
     
     /// The custom collection view for managing image data and interactions.
-    /// responsible for handling the data source and delegate methods of the `collectionView`. It fetches and updates images from the Unsplash API, and handles user interactions with the collection view cells.
-    var imageCollectionView: ImageCollectionView!
-
+    /// It is responsible for handling the data source and delegate methods of the `collectionView`. It fetches and updates images from the Unsplash API, and handles user interactions with the collection view cells.
+    var imageCollectionView: ImageCollectionView
     
     /// Padding constant for layout.
+    /// It is used to provide consistent spacing around the UI elements.
     let padding: CGFloat = 20
     
     /// Height constant for the search text field.
+    /// It defines the height of the search text field in the stack view.
     let textFieldHeight: CGFloat = 40
     
+    /// Initializes a new instance of the ViewController with the specified UnsplashService.
+    /// - Parameter service: The UnsplashService to use for fetching images.
     init(service: UnsplashService) {
+        // We inject the Service to allow for hotswapping other services that perform  Query -> Images work.
         self.imageViewModel = ImageCollectionViewModel(service: service)
+        // These are the UI components internal to the ViewController
+        self.imageCollectionView = ImageCollectionView()
+        self.segmentedControl = ViewControllerUI.createSegmentedControl()
+        self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLayoutFactory.createLayout())
+        self.searchTextField = ViewControllerUI.createSearchTextField()
+        self.stackView = UIStackView(arrangedSubviews: [searchTextField, segmentedControl])
+        
         super.init(nibName: nil, bundle: nil)
     }
-
+    
+    /// Required initializer for the ViewController.
+    /// It creates a new instance of the UnsplashService and initializes the view model with it.
     required init?(coder: NSCoder) {
         do {
             let service = try UnsplashService(apiKey: "O7E-kFrmIbkd-NWHkLxmSSmijJ-JzwGcOHltef0MSH0")
             self.imageViewModel = ImageCollectionViewModel(service: service)
+            self.imageCollectionView = ImageCollectionView()
+            self.segmentedControl = ViewControllerUI.createSegmentedControl()
+            self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLayoutFactory.createLayout())
+            self.searchTextField = ViewControllerUI.createSearchTextField()
+            self.stackView = UIStackView(arrangedSubviews: [searchTextField, segmentedControl])
             super.init(coder: coder)
         } catch {
             fatalError("Failed to create UnsplashService: \(error)")
@@ -77,22 +102,10 @@ class ViewController: UIViewController, ImageCollectionViewDelegate {
     func setupUI() {
         configureStackView()
         configureCollectionView()
-        
-        imageCollectionView = ImageCollectionView()
-        imageCollectionView.delegate = self
-        collectionView.dataSource = imageCollectionView
-        collectionView.delegate = imageCollectionView
     }
     
     /// Sets up the [SearchBar, SegmentControl] stack view and its child components.
     func configureStackView() {
-        let searchTextField = ViewControllerUI.createSearchTextField()
-        searchTextField.delegate = self
-        
-        segmentedControl = ViewControllerUI.createSegmentedControl()
-        segmentedControl.addTarget(self, action: #selector(handleSegmentChange), for: .valueChanged)
-        
-        stackView = UIStackView(arrangedSubviews: [searchTextField, segmentedControl])
         stackView.axis = .vertical
         stackView.spacing = 10
         stackView.distribution = .fill
@@ -106,11 +119,12 @@ class ViewController: UIViewController, ImageCollectionViewDelegate {
             stackView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
         ])
+
+        configureStackViewDelegation()
     }
     
     /// Configures the collection view and its layout.
     func configureCollectionView() {
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLayoutFactory.createLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .systemBackground
         collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.reuseId)
@@ -122,6 +136,23 @@ class ViewController: UIViewController, ImageCollectionViewDelegate {
             collectionView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+        
+        configureCollectionViewDelegation()
+    }
+    
+    /// Configures the delegation for the stack view components.
+    /// It sets the delegate for the search text field and adds a target-action for the segmented control.
+    func configureStackViewDelegation() {
+        searchTextField.delegate = self
+        segmentedControl.addTarget(self, action: #selector(handleSegmentChange), for: .valueChanged)
+    }
+    
+    /// Configures the delegation for the collection view.
+    /// It sets the delegate and data source for the collection view to the `imageCollectionView`.
+    func configureCollectionViewDelegation() {
+        imageCollectionView.delegate = self
+        collectionView.dataSource = imageCollectionView
+        collectionView.delegate = imageCollectionView
     }
     
     /// Binds the view model and calls initial `viewModel.fetchImages` to load default collection.
