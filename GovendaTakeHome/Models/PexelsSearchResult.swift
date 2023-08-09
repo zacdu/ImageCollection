@@ -10,41 +10,17 @@ import Foundation
 /// `PexelsResponse` represents the top-level response from the Pexels API.
 struct PexelsResponse: Codable {
     /// The total number of results available for the query.
-    let totalResults: Int
+    let totalResults: Int?
     /// The current page number in the paginated response.
-    let page: Int
+    let page: Int?
     /// The number of results per page.
-    let perPage: Int
+    let perPage: Int?
     /// An array of `Photo` objects, representing the photos returned by the query.
     let photos: [Photo]
     /// The URL for the next page in the paginated response.
     let nextPage: String?
 }
 
-
-extension Photo: ImageRepresentable {
-    var imageUrl: URL {
-        return URL(string: src.medium)!
-    }
-    
-    var profileImageUrl: URL? {
-        return nil
-    }
-    
-    var username: String? {
-        return photographer
-    }
-    
-    var description: String? {
-        return alt
-    }
-    
-    var socialMedia: String? {
-        photographerUrl
-    }
-    
-    
-}
 
 /// `Photo` represents a photo returned by the Pexels API.
 struct Photo: Codable {
@@ -63,13 +39,27 @@ struct Photo: Codable {
     /// The unique identifier for the photographer.
     let photographerId: Int
     /// The average color of the photo, represented as a hexadecimal color code.
-    let avgColor: String
+    let avgColor: String?
     /// A `Source` object, containing various versions of the photo.
     let src: Source
     /// A Boolean value indicating whether the photo has been liked by the user.
-    let liked: Bool
+    let liked: Bool?
     /// A description of the photo.
     let alt: String
+}
+
+
+/// Conformance to ImageRepresentable
+extension Photo: ImageRepresentable {
+    var imageUrl: URL { return URL(string: src.medium)! }
+    
+    var profileImageUrl: URL? { return nil }
+    
+    var username: String? { return photographer }
+    
+    var description: String? { return alt }
+    
+    var socialMedia: String? { photographerUrl }
 }
 
 
