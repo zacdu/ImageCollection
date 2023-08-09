@@ -10,15 +10,15 @@ import UIKit
 class ImageDetailViewModel {
     
     /// The service object that fetches images from the Unsplash API.
-    let service: ImageService
+    let service: NetworkImageService
     
-    init(service: ImageService) {
+    init(service: NetworkImageService) {
         self.service = service
     }
     
     /// Fetches an image from the Unsplash API based on its URL.
     ///
-    /// This method uses the `ImageService` to fetch an image based on the specified URL. Once the image is fetched, it calls the provided completion handler.
+    /// This method uses the `NetworkImageService` to fetch an image based on the specified URL. Once the image is fetched, it calls the provided completion handler.
     ///
     /// - Parameters:
     ///   - url: The URL of the image to fetch.

@@ -54,7 +54,7 @@ class ImageDetailViewController: UIViewController {
     ///   - unsplashImage: The Unsplash image to display.
     ///   - service: The service to use to fetch images.
     /// The initializer also creates a new `ImageDetailViewModel` instance with the specified service.
-    init(image: ImageRepresentable, service: ImageService) {
+    init(image: ImageRepresentable, service: NetworkImageService) {
         self.imageRepresented = image
         self.detailViewModel = ImageDetailViewModel(service: service)
         
@@ -94,6 +94,49 @@ class ImageDetailViewController: UIViewController {
 }
 
 
+
+// MARK: - Image Model methods
+extension ImageDetailViewController {
+    /// Fetches the Unsplash image and updates the image view.
+    /// It uses the `fetchImage(for:completion:)` method of the `detailViewModel` to fetch the image.
+    private func loadImage() {
+        detailViewModel.fetchImage(for: imageRepresented.imageUrl) { [weak self] result in
+            switch result {
+            case .success(let image):
+                // Update the UI on the main thread
+                DispatchQueue.main.async {
+                    self?.imageView.image = image
+                }
+            case .failure(let error):
+                // TODO: show an alert to the user
+                print("Error fetching images: \(error)")
+            }
+        }
+    }
+    
+    /// Fetches the profile image of the Unsplash image's user and updates the profile image view.
+    /// It uses the `fetchImage(for:completion:)` method of the `detailViewModel` to fetch the profile image.
+    private func loadProfileImage() {
+        guard let url = imageRepresented.profileImageUrl else {
+            self.profileImageView.image = UIImage(systemName: "person.circle")
+            return
+        }
+        detailViewModel.fetchImage(for: url) { [weak self] result in
+            switch result {
+            case .success(let image):
+                // Update the UI on the main thread
+                DispatchQueue.main.async {
+                    self?.profileImageView.image = image
+                }
+            case .failure( _):
+                // TODO: show an alert to the user
+                self?.profileImageView.image = UIImage(systemName: "person.circle")
+            }
+        }
+    }
+}
+
+
 // MARK: - UI Setup
 extension ImageDetailViewController {
     /// It configures the scroll view, image view, username label, profile image view, social media label, and description label.
@@ -107,7 +150,6 @@ extension ImageDetailViewController {
         configureSocialMediaLabel()
         configureDescriptionLabel()
     }
-    
     
     private func configureScrollView() {
         // Add the scroll view to the view
@@ -171,45 +213,5 @@ extension ImageDetailViewController {
             descriptionLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
             descriptionLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16)
         ])
-    }
-    
-}
-
-
-// MARK: - Image Model methods
-extension ImageDetailViewController {
-    /// Fetches the Unsplash image and updates the image view.
-    /// It uses the `fetchImage(for:completion:)` method of the `detailViewModel` to fetch the image.
-    private func loadImage() {
-        detailViewModel.fetchImage(for: imageRepresented.imageUrl) { [weak self] result in
-            switch result {
-            case .success(let image):
-                // Update the UI on the main thread
-                DispatchQueue.main.async {
-                    self?.imageView.image = image
-                }
-            case .failure(let error):
-                // TODO: show an alert to the user
-                print("Error fetching images: \(error)")
-            }
-        }
-    }
-    
-    /// Fetches the profile image of the Unsplash image's user and updates the profile image view.
-    /// It uses the `fetchImage(for:completion:)` method of the `detailViewModel` to fetch the profile image.
-    private func loadProfileImage() {
-        guard let url = imageRepresented.profileImageUrl else { return }
-        detailViewModel.fetchImage(for: url) { [weak self] result in
-            switch result {
-            case .success(let image):
-                // Update the UI on the main thread
-                DispatchQueue.main.async {
-                    self?.profileImageView.image = image
-                }
-            case .failure( _):
-                // TODO: show an alert to the user
-                self?.profileImageView.image = UIImage(systemName: "profile")
-            }
-        }
     }
 }

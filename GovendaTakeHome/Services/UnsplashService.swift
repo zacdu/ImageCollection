@@ -12,16 +12,18 @@ import UIKit
 /// This class uses the URLSession API for networking and the JSONDecoder for decoding the JSON response from the API into Swift data types.
 ///
 /// The Unsplash API requires an API key for authorization, which is included in the headers of the HTTP requests made by this class.
-class UnsplashService: ImageService {
+class UnsplashService: NetworkImageService {
+    
     /// The API key for the Unsplash API.
     let apiKey: String
-    private let authHeaderField = "Authorization"
+    let baseUrl: String = "https://api.unsplash.com/search/photos"
+    let authHeaderField: String? = "Authorization"
     private let authHeaderValue = "Client-ID"
     private let versionHeaderField = "Accept-Version"
     private let versionValue = "v1"
     
     init(apiKey: String) throws {
-        guard !apiKey.isEmpty else { throw ImageServiceError.invalidAPIKey }
+        guard !apiKey.isEmpty else { throw NetworkImageServiceError.invalidAPIKey }
         self.apiKey = apiKey
     }
 
@@ -33,10 +35,12 @@ class UnsplashService: ImageService {
     /// - Returns: A UIImage of the fetched image.
     /// - Throws: An error if there was a problem fetching the image.
     func fetchImage(url: URL) async throws -> UIImage {
-        guard !apiKey.isEmpty else { throw ImageServiceError.invalidAPIKey }
+        guard !apiKey.isEmpty else { throw NetworkImageServiceError.invalidAPIKey }
 
         var request = URLRequest(url: url)
-        request.setValue(authHeaderValue + " " + apiKey, forHTTPHeaderField: authHeaderField)
+        if let authHeader = authHeaderField {
+            request.setValue(authHeaderValue + " " + apiKey, forHTTPHeaderField: authHeader)
+        }
         request.setValue(versionValue, forHTTPHeaderField: versionHeaderField)
         let (data, _) = try await URLSession.shared.data(for: request)
         guard let image = UIImage(data: data) else { return UIImage(systemName: "photo") ?? UIImage() }
@@ -52,8 +56,7 @@ class UnsplashService: ImageService {
     /// - Throws: An error if there was a problem fetching the images.
     func fetchImages(query: String) async throws -> [ImageRepresentable] {
         guard !apiKey.isEmpty else { throw URLError(.userAuthenticationRequired) }
-        let urlString = "https://api.unsplash.com/search/photos"
-        guard var url = URL(string: urlString) else { throw URLError(.badURL) }
+        guard var url = URL(string: baseUrl) else { throw URLError(.badURL) }
         let items: [URLQueryItem] = [
             URLQueryItem(name: "query", value: query),
             URLQueryItem(name: "per_page", value: "30")
@@ -62,7 +65,9 @@ class UnsplashService: ImageService {
         url.append(queryItems: items)
         
         var request = URLRequest(url: url)
-        request.setValue(authHeaderValue + " " + apiKey, forHTTPHeaderField: authHeaderField)
+        if let authHeader = authHeaderField {
+            request.setValue(authHeaderValue + " " + apiKey, forHTTPHeaderField: authHeader)
+        }
         request.setValue(versionValue, forHTTPHeaderField: versionHeaderField)
 
         let (data, _) = try await URLSession.shared.data(for: request)

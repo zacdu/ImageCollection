@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ImageServiceError: Error {
+enum NetworkImageServiceError: Error {
     case invalidAPIKey
     case invalidProfileURL
 }

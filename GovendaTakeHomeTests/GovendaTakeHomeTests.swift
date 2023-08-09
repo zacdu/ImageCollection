@@ -71,13 +71,13 @@ final class ImageCollectionViewModelTests: XCTestCase {
                 case .success(_):
                     XCTFail("Images were fetched with an invalid API key")
                 case .failure(let error):
-                    XCTAssert(error is ImageServiceError, "Unexpected error: \(error)")
+                    XCTAssert(error is NetworkImageServiceError, "Unexpected error: \(error)")
                     expectation.fulfill()
                 }
             }
             
             wait(for: [expectation], timeout: 10.0)
-        } catch ImageServiceError.invalidAPIKey {
+        } catch NetworkImageServiceError.invalidAPIKey {
             // Expected error, test passed
         } catch {
             XCTFail("Unexpected error: \(error)")
@@ -119,13 +119,13 @@ final class ImageCollectionViewModelTests: XCTestCase {
                 case .success(_):
                     XCTFail("Image was fetched with an invalid API key")
                 case .failure(let error):
-                    XCTAssert(error is ImageServiceError, "Unexpected error: \(error)")
+                    XCTAssert(error is NetworkImageServiceError, "Unexpected error: \(error)")
                     expectation.fulfill()
                 }
             }
             
             wait(for: [expectation], timeout: 10.0)
-        } catch ImageServiceError.invalidAPIKey {
+        } catch NetworkImageServiceError.invalidAPIKey {
             // Expected error, test passed
         } catch {
             XCTFail("Unexpected error: \(error)")

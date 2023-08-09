@@ -60,9 +60,9 @@ class ViewController: UIViewController {
     /// It defines the height of the search text field in the stack view.
     let textFieldHeight: CGFloat = 40
     
-    /// Initializes a new instance of the ViewController with the specified ImageService.
-    /// - Parameter service: The ImageService to use for fetching images.
-    init(service: ImageService) {
+    /// Initializes a new instance of the ViewController with the specified NetworkImageService.
+    /// - Parameter service: The NetworkImageService to use for fetching images.
+    init(service: NetworkImageService) {
         // We inject the Service to allow for hotswapping other services that perform  Query -> Images work.
         self.imageViewModel = ImageCollectionViewModel(service: service)
         // These are the UI components internal to the ViewController
@@ -238,7 +238,7 @@ extension ViewController {
         let selectedImage = imageCollectionView.images[indexPath.item]
         
         do {
-            // Create an instance of ImageService
+            // Create an instance of NetworkImageService
             let unsplashService = try UnsplashService(apiKey: "O7E-kFrmIbkd-NWHkLxmSSmijJ-JzwGcOHltef0MSH0")
             let pexelService = try PexelService(apiKey: "DMG4hXCfWTDXWsjRezp4kIxlQuF8l0onFbNv3IzvXS58WtzQQ1QZWMqb")
 
