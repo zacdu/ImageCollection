@@ -34,12 +34,14 @@ class ImageCollectionView: NSObject, UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.reuseId, for: indexPath) as! ImageCollectionViewCell
         let image = images[indexPath.row]
+        
+        // Set a placeholder image or clear the current image
+        cell.configure(with: nil)
+        
         delegate?.fetchImage(for: image.imageUrl) { result in
             switch result {
             case .success(let image):
-                DispatchQueue.main.async {
-                    cell.configure(with: image)
-                }
+                cell.configure(with: image)
             case .failure(let error):
                 print("Error loading image: \(error)")
             }
@@ -50,7 +52,6 @@ class ImageCollectionView: NSObject, UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate?.collectionView(collectionView, didSelectImageAt: indexPath)
     }
-
     
     /// Updates the images to be displayed in the collection view.
     /// - Parameter newImages: An array of `UnsplashImage` objects representing the new images.

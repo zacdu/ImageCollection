@@ -46,6 +46,8 @@ class ImageCollectionViewCell: UICollectionViewCell {
     ///
     /// - Parameter image: The image to display. If this is `nil`, the image view's image is set to `nil`.
     func configure(with image: UIImage?) {
-        imageView.image = image
+        DispatchQueue.main.async {
+            self.imageView.image = image
+        }
     }
 }
