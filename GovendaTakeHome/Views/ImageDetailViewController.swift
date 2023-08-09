@@ -106,6 +106,7 @@ extension ImageDetailViewController {
                 // Update the UI on the main thread
                 DispatchQueue.main.async {
                     self?.imageView.image = image
+                    self?.setImageViewAspectRatio(image: image)
                 }
             case .failure(let error):
                 // TODO: show an alert to the user
@@ -172,19 +173,20 @@ extension ImageDetailViewController {
     }
     
     private func configureImageView() {
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             imageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            imageView.heightAnchor.constraint(equalTo: scrollView.widthAnchor),
-            
         ])
     }
     
     private func configureUsernameLabel() {
         NSLayoutConstraint.activate([
-            usernameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 16),
+            usernameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4),
             usernameLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
             usernameLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
         ])
@@ -213,5 +215,27 @@ extension ImageDetailViewController {
             descriptionLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
             descriptionLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16)
         ])
+    }
+    
+    private func setImageViewAspectRatio(image: UIImage) {
+        // Remove any existing height constraints for imageView, since we're about to active a .height constraint based on aspectRatio
+        imageView.constraints.forEach {
+            if $0.firstAttribute == .height && $0.secondItem === imageView && $0.secondAttribute == .width {
+                imageView.removeConstraint($0)
+            }
+        }
+        
+        // Calculate the aspect ratio of the image
+        let aspectRatio = image.size.height / image.size.width
+        
+        // Set the height constraint based on the aspect ratio
+        let constraint = NSLayoutConstraint(item: imageView,
+                                            attribute: .height,
+                                            relatedBy: .equal,
+                                            toItem: imageView,
+                                            attribute: .width,
+                                            multiplier: aspectRatio,
+                                            constant: 0)
+        NSLayoutConstraint.activate([constraint])
     }
 }
