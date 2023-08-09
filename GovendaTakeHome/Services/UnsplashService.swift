@@ -72,4 +72,3 @@ class UnsplashService: ImageService {
         return searchResult.results
     }
 }
-

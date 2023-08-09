@@ -31,6 +31,8 @@
 		83AD7B262A82E34000C4E133 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AD7B252A82E34000C4E133 /* ImageService.swift */; };
 		83AD7B282A82E36300C4E133 /* ServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AD7B272A82E36300C4E133 /* ServiceError.swift */; };
 		83AD7B2E2A833D0E00C4E133 /* ImageRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AD7B2D2A833D0E00C4E133 /* ImageRepresentable.swift */; };
+		83AD7B302A83403800C4E133 /* PexelsSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AD7B2F2A83403800C4E133 /* PexelsSearchResult.swift */; };
+		83AD7B322A83431D00C4E133 /* PexelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AD7B312A83431D00C4E133 /* PexelService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +81,8 @@
 		83AD7B252A82E34000C4E133 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		83AD7B272A82E36300C4E133 /* ServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; };
 		83AD7B2D2A833D0E00C4E133 /* ImageRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRepresentable.swift; sourceTree = "<group>"; };
+		83AD7B2F2A83403800C4E133 /* PexelsSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PexelsSearchResult.swift; sourceTree = "<group>"; };
+		83AD7B312A83431D00C4E133 /* PexelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PexelService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				830EDCA12A8192BF0000438F /* UnsplashSearchResult.swift */,
+				83AD7B2F2A83403800C4E133 /* PexelsSearchResult.swift */,
 				830EDCA72A81A5760000438F /* CellSize.swift */,
 			);
 			path = Models;
@@ -201,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				830EDCA32A81971E0000438F /* UnsplashService.swift */,
+				83AD7B312A83431D00C4E133 /* PexelService.swift */,
 				83AD7B252A82E34000C4E133 /* ImageService.swift */,
 				83AD7B2D2A833D0E00C4E133 /* ImageRepresentable.swift */,
 				83AD7B272A82E36300C4E133 /* ServiceError.swift */,
@@ -359,6 +365,8 @@
 				830EDCA82A81A5760000438F /* CellSize.swift in Sources */,
 				830EDCB02A8208970000438F /* CollectionViewLayoutFactory.swift in Sources */,
 				83AD7B242A82D5B300C4E133 /* ImageDetailViewControllerUI.swift in Sources */,
+				83AD7B322A83431D00C4E133 /* PexelService.swift in Sources */,
+				83AD7B302A83403800C4E133 /* PexelsSearchResult.swift in Sources */,
 				83AD7B282A82E36300C4E133 /* ServiceError.swift in Sources */,
 				830EDCA22A8192BF0000438F /* UnsplashSearchResult.swift in Sources */,
 				830EDC722A8191270000438F /* ViewController.swift in Sources */,

@@ -79,8 +79,10 @@ class ViewController: UIViewController {
     /// It creates a new instance of the ImageService and initializes the view model with it.
     required init?(coder: NSCoder) {
         do {
-            let service = try UnsplashService(apiKey: "O7E-kFrmIbkd-NWHkLxmSSmijJ-JzwGcOHltef0MSH0")
-            self.imageViewModel = ImageCollectionViewModel(service: service)
+            let unsplashService = try UnsplashService(apiKey: "O7E-kFrmIbkd-NWHkLxmSSmijJ-JzwGcOHltef0MSH0")
+            let pexelService = try PexelService(apiKey: "DMG4hXCfWTDXWsjRezp4kIxlQuF8l0onFbNv3IzvXS58WtzQQ1QZWMqb")
+            
+            self.imageViewModel = ImageCollectionViewModel(service: unsplashService)
             self.imageCollectionView = ImageCollectionView()
             self.segmentedControl = ViewControllerUI.createSegmentedControl()
             self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLayoutFactory.createLayout())
@@ -237,10 +239,11 @@ extension ViewController {
         
         do {
             // Create an instance of ImageService
-            let service = try UnsplashService(apiKey: "O7E-kFrmIbkd-NWHkLxmSSmijJ-JzwGcOHltef0MSH0")
-            
+            let unsplashService = try UnsplashService(apiKey: "O7E-kFrmIbkd-NWHkLxmSSmijJ-JzwGcOHltef0MSH0")
+            let pexelService = try PexelService(apiKey: "DMG4hXCfWTDXWsjRezp4kIxlQuF8l0onFbNv3IzvXS58WtzQQ1QZWMqb")
+
             // Create an instance of ImageDetailViewController
-            let detailViewController = ImageDetailViewController(image: selectedImage, service: service)
+            let detailViewController = ImageDetailViewController(image: selectedImage, service: unsplashService)
             
             // Present the detail view controller modally
             present(detailViewController, animated: true, completion: nil)
