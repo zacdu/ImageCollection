@@ -17,6 +17,8 @@ class UnsplashService: ImageService {
     let apiKey: String
     private let authHeaderField = "Authorization"
     private let authHeaderValue = "Client-ID"
+    private let versionHeaderField = "Accept-Version"
+    private let versionValue = "v1"
     
     init(apiKey: String) throws {
         guard !apiKey.isEmpty else { throw ImageServiceError.invalidAPIKey }
@@ -35,7 +37,7 @@ class UnsplashService: ImageService {
 
         var request = URLRequest(url: url)
         request.setValue(authHeaderValue + " " + apiKey, forHTTPHeaderField: authHeaderField)
-        request.setValue("v1", forHTTPHeaderField: "Accept-Version")
+        request.setValue(versionValue, forHTTPHeaderField: versionHeaderField)
         let (data, _) = try await URLSession.shared.data(for: request)
         guard let image = UIImage(data: data) else { return UIImage(systemName: "photo") ?? UIImage() }
         return image
@@ -61,10 +63,12 @@ class UnsplashService: ImageService {
         
         var request = URLRequest(url: url)
         request.setValue(authHeaderValue + " " + apiKey, forHTTPHeaderField: authHeaderField)
-        request.setValue("v1", forHTTPHeaderField: "Accept-Version")
-        
+        request.setValue(versionValue, forHTTPHeaderField: versionHeaderField)
+
         let (data, _) = try await URLSession.shared.data(for: request)
-        let searchResult = try JSONDecoder().decode(UnsplashSearchResult.self, from: data)
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        let searchResult = try decoder.decode(UnsplashSearchResult.self, from: data)
         return searchResult.results
     }
 }

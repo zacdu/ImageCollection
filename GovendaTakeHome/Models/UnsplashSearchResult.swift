@@ -25,21 +25,6 @@ struct UnsplashImage: Codable {
     let user: User?
     let urls: ImageURLs
     let links: ImageLinks?
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case createdAt = "created_at"
-        case width
-        case height
-        case color
-        case blurHash = "blur_hash"
-        case likes
-        case likedByUser = "liked_by_user"
-        case description
-        case user
-        case urls
-        case links
-    }
 }
 
 struct User: Codable {
@@ -53,19 +38,6 @@ struct User: Codable {
     let portfolioUrl: String?
     let profileImage: ProfileImage?
     let links: UserLinks?
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case username
-        case name
-        case firstName = "first_name"
-        case lastName = "last_name"
-        case instagramUsername = "instagram_username"
-        case twitterUsername = "twitter_username"
-        case portfolioUrl = "portfolio_url"
-        case profileImage = "profile_image"
-        case links
-    }
 }
 
 struct ProfileImage: Codable {
@@ -107,9 +79,3 @@ struct ImageLinks: Codable {
         case download
     }
 }
-
-
-//struct ImageURLs: Codable {
-//    let thumb: URL
-//    let regular: URL
-//}
