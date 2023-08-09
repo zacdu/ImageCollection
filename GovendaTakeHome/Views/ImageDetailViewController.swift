@@ -14,7 +14,7 @@ class ImageDetailViewController: UIViewController {
     // MARK: - Properties
     
     /// The `UnsplashImage` instance that the view controller displays. This property is set when the view controller is initialized.
-    var unsplashImage: UnsplashImage
+    var imageRepresented: ImageRepresentable
     
     /// The `ImageDetailViewModel` instance that the view controller uses to fetch images. This property is set when the view controller is initialized.
     /// The view controller delegates the task of fetching images to the view model, following the MVVM design pattern.
@@ -54,8 +54,8 @@ class ImageDetailViewController: UIViewController {
     ///   - unsplashImage: The Unsplash image to display.
     ///   - service: The service to use to fetch images.
     /// The initializer also creates a new `ImageDetailViewModel` instance with the specified service.
-    init(unsplashImage: UnsplashImage, service: ImageService) {
-        self.unsplashImage = unsplashImage
+    init(image: ImageRepresentable, service: ImageService) {
+        self.imageRepresented = image
         self.detailViewModel = ImageDetailViewModel(service: service)
         
         self.scrollView = ImageDetailViewControllerUI.scrollView
@@ -86,9 +86,9 @@ class ImageDetailViewController: UIViewController {
         loadProfileImage()
         
         // Set the username, description, and social media handle
-        usernameLabel.text = unsplashImage.user?.name ?? "Unknown"
-        descriptionLabel.text = unsplashImage.description ?? "No description"
-        socialMediaLabel.text = "@\(unsplashImage.user?.username ?? "")"
+        usernameLabel.text = imageRepresented.username ?? "Unknown"
+        descriptionLabel.text = imageRepresented.description ?? "No description"
+        socialMediaLabel.text = "@\(imageRepresented.socialMedia ?? "")"
     }
     
 }
@@ -181,7 +181,7 @@ extension ImageDetailViewController {
     /// Fetches the Unsplash image and updates the image view.
     /// It uses the `fetchImage(for:completion:)` method of the `detailViewModel` to fetch the image.
     private func loadImage() {
-        detailViewModel.fetchImage(for: unsplashImage.urls.regular) { [weak self] result in
+        detailViewModel.fetchImage(for: imageRepresented.imageUrl) { [weak self] result in
             switch result {
             case .success(let image):
                 // Update the UI on the main thread
@@ -198,7 +198,7 @@ extension ImageDetailViewController {
     /// Fetches the profile image of the Unsplash image's user and updates the profile image view.
     /// It uses the `fetchImage(for:completion:)` method of the `detailViewModel` to fetch the profile image.
     private func loadProfileImage() {
-        guard let url = unsplashImage.user?.profileImage?.small else { return }
+        guard let url = imageRepresented.profileImageUrl else { return }
         detailViewModel.fetchImage(for: url) { [weak self] result in
             switch result {
             case .success(let image):

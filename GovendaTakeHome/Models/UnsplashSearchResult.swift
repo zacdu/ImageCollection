@@ -12,6 +12,22 @@ struct UnsplashSearchResult: Codable {
     let results: [UnsplashImage]
 }
 
+// MARK: - UnsplashImage: ImageRepresentable
+extension UnsplashImage: ImageRepresentable {
+    var imageUrl: URL { return urls.regular }
+    var profileImageUrl: URL? { return user?.profileImage?.medium }
+    var username: String? { return user?.username }
+    var socialMedia: String? {
+        if let insta = user?.instagramUsername {
+            return insta
+        } else if let twitter = user?.twitterUsername {
+            return twitter
+        } else {
+            return user?.instagramUsername
+        }
+    }
+}
+
 struct UnsplashImage: Codable {
     let id: String
     let createdAt: String?

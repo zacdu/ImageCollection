@@ -50,7 +50,7 @@ class UnsplashService: ImageService {
     /// - Parameter query: The search query to use when fetching the images.
     /// - Returns: An array of `UnsplashImage` objects representing the fetched images.
     /// - Throws: An error if there was a problem fetching the images.
-    func fetchImages(query: String) async throws -> [UnsplashImage] {
+    func fetchImages(query: String) async throws -> [ImageRepresentable] {
         guard !apiKey.isEmpty else { throw URLError(.userAuthenticationRequired) }
         let urlString = "https://api.unsplash.com/search/photos"
         guard var url = URL(string: urlString) else { throw URLError(.badURL) }

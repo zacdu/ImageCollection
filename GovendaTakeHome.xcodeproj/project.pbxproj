@@ -30,6 +30,7 @@
 		83AD7B242A82D5B300C4E133 /* ImageDetailViewControllerUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AD7B232A82D5B300C4E133 /* ImageDetailViewControllerUI.swift */; };
 		83AD7B262A82E34000C4E133 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AD7B252A82E34000C4E133 /* ImageService.swift */; };
 		83AD7B282A82E36300C4E133 /* ServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AD7B272A82E36300C4E133 /* ServiceError.swift */; };
+		83AD7B2E2A833D0E00C4E133 /* ImageRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AD7B2D2A833D0E00C4E133 /* ImageRepresentable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		83AD7B232A82D5B300C4E133 /* ImageDetailViewControllerUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailViewControllerUI.swift; sourceTree = "<group>"; };
 		83AD7B252A82E34000C4E133 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		83AD7B272A82E36300C4E133 /* ServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; };
+		83AD7B2D2A833D0E00C4E133 /* ImageRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRepresentable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +202,7 @@
 			children = (
 				830EDCA32A81971E0000438F /* UnsplashService.swift */,
 				83AD7B252A82E34000C4E133 /* ImageService.swift */,
+				83AD7B2D2A833D0E00C4E133 /* ImageRepresentable.swift */,
 				83AD7B272A82E36300C4E133 /* ServiceError.swift */,
 			);
 			path = Services;
@@ -362,6 +365,7 @@
 				830EDCAE2A8205190000438F /* ImageCollectionView.swift in Sources */,
 				830EDC6E2A8191270000438F /* AppDelegate.swift in Sources */,
 				830EDC702A8191270000438F /* SceneDelegate.swift in Sources */,
+				83AD7B2E2A833D0E00C4E133 /* ImageRepresentable.swift in Sources */,
 				830EDCAC2A8202F70000438F /* ImageCollectionViewCell.swift in Sources */,
 				830EDCAA2A81A6620000438F /* ViewControllerUI.swift in Sources */,
 				830EDCA42A81971E0000438F /* UnsplashService.swift in Sources */,

@@ -27,7 +27,7 @@ class ImageCollectionViewModel {
     /// - Parameters:
     ///   - query: The search query to use when fetching images.
     ///   - completion: A closure to be executed once the fetch is complete. This closure takes a single argument: a Result containing an array of `UnsplashImage` objects on success, or an Error on failure.
-    func fetchImages(for query: String = defaultQuery, completion: @escaping (Result<[UnsplashImage], Error>) -> Void) {
+    func fetchImages(for query: String = defaultQuery, completion: @escaping (Result<[ImageRepresentable], Error>) -> Void) {
         Task {
             do {
                 let images = try await service.fetchImages(query: query)

@@ -105,7 +105,7 @@ class ViewController: UIViewController {
 extension ViewController {
     /// Updates the collection view's images with the latest data from the ViewModel.
     /// This method should be called whenever the data in the ViewModel changes.
-    func updateCollectionViewImages(_ images: [UnsplashImage]) {
+    func updateCollectionViewImages(_ images: [ImageRepresentable]) {
         imageCollectionView.updateImages(images)
         collectionView.reloadData()
     }
@@ -240,8 +240,7 @@ extension ViewController {
             let service = try UnsplashService(apiKey: "O7E-kFrmIbkd-NWHkLxmSSmijJ-JzwGcOHltef0MSH0")
             
             // Create an instance of ImageDetailViewController
-            let detailViewController = ImageDetailViewController(unsplashImage: selectedImage, service: service)
-            detailViewController.modalPresentationStyle = .formSheet
+            let detailViewController = ImageDetailViewController(image: selectedImage, service: service)
             
             // Present the detail view controller modally
             present(detailViewController, animated: true, completion: nil)

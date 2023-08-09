@@ -12,7 +12,7 @@ import UIKit
 class ImageCollectionView: NSObject, UICollectionViewDataSource, UICollectionViewDelegate {
     
     /// An array of `UnsplashImage` objects representing the images to be displayed in the collection view.
-    var images: [UnsplashImage] = []
+    var images: [ImageRepresentable] = []
     
     /// A weak reference to the delegate of the `ImageCollectionView`. The delegate is responsible for fetching the images.
     weak var delegate: ImageCollectionViewDelegate?
@@ -34,7 +34,7 @@ class ImageCollectionView: NSObject, UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.reuseId, for: indexPath) as! ImageCollectionViewCell
         let image = images[indexPath.row]
-        delegate?.fetchImage(for: image.urls.regular) { result in
+        delegate?.fetchImage(for: image.imageUrl) { result in
             switch result {
             case .success(let image):
                 DispatchQueue.main.async {
@@ -54,7 +54,7 @@ class ImageCollectionView: NSObject, UICollectionViewDataSource, UICollectionVie
     
     /// Updates the images to be displayed in the collection view.
     /// - Parameter newImages: An array of `UnsplashImage` objects representing the new images.
-    func updateImages(_ newImages: [UnsplashImage]) {
+    func updateImages(_ newImages: [ImageRepresentable]) {
         self.images = newImages
     }
 }
