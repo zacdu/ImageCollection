@@ -32,7 +32,7 @@ class ImageCollectionView: NSObject, UICollectionViewDataSource, UICollectionVie
     ///   - indexPath: The index path that specifies the location of the item.
     /// - Returns: A configured cell object. You must not return `nil` from this method.
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.reuseId, for: indexPath) as! ImageCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.reuseId, for: indexPath) as? ImageCollectionViewCell else { return UICollectionViewCell() }
         let image = images[indexPath.row]
         
         // Set a placeholder image or clear the current image
