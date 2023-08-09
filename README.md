@@ -4,16 +4,16 @@ ImageCollection is a robust iOS application developed in Swift, leveraging the U
 
 ```mermaid
 graph TD
-  A[ViewController] --> B[ImageCollectionViewModel]
-  B --> C[ImageService]
-  C --> D[ImageServiceResult: UnsplashSearchResult]
-  B --> E[CellSizeViewModel]
-  E --> F[CellSize]
-  A --> G[ImageCollectionView]
-  G --> H[ImageCollectionViewCell]
-  A --> I[ImageDetailViewController]
-  I --> J[ImageDetailViewModel]
-  J --> K[ImageService]
+  A[ViewController] --> B[ImageCollectionView]
+  B --> C[ImageDetailViewController]
+  B --> D[ImageCollectionViewCell]
+  B --> E[ImageCollectionViewModel]
+  E --> F[PexelService]
+  E --> G[UnsplashService]
+  F --> H[NetworkImageService]
+  G --> H
+  H --> I[Networking]
+  I --> J[API Endpoints]
 
 ```
 
