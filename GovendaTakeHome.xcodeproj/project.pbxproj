@@ -185,8 +185,11 @@
 		830EDC9F2A81921C0000438F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				838BD81E2A86D1BB006F4B8A /* Errors */,
 				830EDCA12A8192BF0000438F /* UnsplashSearchResult.swift */,
 				83AD7B2F2A83403800C4E133 /* PexelsSearchResult.swift */,
+				83AD7B252A82E34000C4E133 /* NetworkImageService.swift */,
+				83AD7B2D2A833D0E00C4E133 /* ImageRepresentable.swift */,
 				830EDCA72A81A5760000438F /* CellSize.swift */,
 			);
 			path = Models;
@@ -207,9 +210,6 @@
 			children = (
 				830EDCA32A81971E0000438F /* UnsplashService.swift */,
 				83AD7B312A83431D00C4E133 /* PexelService.swift */,
-				83AD7B252A82E34000C4E133 /* NetworkImageService.swift */,
-				83AD7B2D2A833D0E00C4E133 /* ImageRepresentable.swift */,
-				83AD7B272A82E36300C4E133 /* ServiceError.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -224,6 +224,14 @@
 				830EDCAF2A8208970000438F /* CollectionViewLayoutFactory.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		838BD81E2A86D1BB006F4B8A /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				83AD7B272A82E36300C4E133 /* ServiceError.swift */,
+			);
+			path = Errors;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
