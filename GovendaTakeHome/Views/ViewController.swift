@@ -189,7 +189,6 @@ extension ViewController {
     @objc func handleSegmentChange() {
         cellSizeViewModel.handleCellSizeChange(segmentIndex: segmentedControl.selectedSegmentIndex)
         collectionView.setCollectionViewLayout(CollectionViewLayoutFactory.createLayout(with: cellSizeViewModel.currentCellSize), animated: true)
-        collectionView.reloadData()
     }
 }
 
